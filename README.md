@@ -11,7 +11,7 @@ cd aoc_2022 && rake install
 ## Usage
 
 ```
-aoc_20201 -d <day> [-i <path-to-input-file>]
+aoc_2022 -d <day> [-i <path-to-input-file>]
 ```
 
 ## Development
