@@ -3,15 +3,13 @@
 module Aoc2022
   #----
   class Day02Part1
-    SHAPE_1     = { 'A' => :rock,
+    SHAPE_ONE   = { 'A' => :rock,
                     'B' => :paper,
                     'C' => :scissors }.freeze
-    SHAPE_2     = { 'X' => :rock,
+    SHAPE_TWO   = { 'X' => :rock,
                     'Y' => :paper,
                     'Z' => :scissors }.freeze
-    SHAPE_SCORE = { rock: 1,
-                    paper: 2,
-                    scissors: 3 }.freeze
+    SHAPE_SCORE = { rock: 1, paper: 2, scissors: 3 }.freeze
     WIN         = 6
     DRAW        = 3
     LOSE        = 0
@@ -21,7 +19,7 @@ module Aoc2022
     end
 
     def run
-      @input.map { |r| score(SHAPE_1[r[0]], SHAPE_2[r[1]]) }.sum
+      @input.map { |r| score(SHAPE_ONE[r[0]], SHAPE_TWO[r[1]]) }.sum
     end
 
     private
@@ -54,7 +52,7 @@ module Aoc2022
                'Z' => :win }.freeze
 
     def run
-      @input.map { |r| score(SHAPE_1[r[0]], required_shape(SHAPE_1[r[0]], RESULT[r[1]])) }.sum
+      @input.map { |r| score(SHAPE_ONE[r[0]], required_shape(SHAPE_ONE[r[0]], RESULT[r[1]])) }.sum
     end
 
     private
@@ -65,7 +63,7 @@ module Aoc2022
     end
 
     def discover_shape(shape_one, result)
-      SHAPE_2.each_value do |shape_two|
+      SHAPE_TWO.each_value do |shape_two|
         if result.eql?(:win)
           return shape_two if win?(shape_one, shape_two)
         else
