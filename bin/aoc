@@ -4,5 +4,4 @@
 require 'bundler/setup'
 require 'aoc_2022'
 
-puts Aoc2022::Day12.part_one
-puts Aoc2022::Day12.part_two
+Aoc2022::CLI.start(ARGV)

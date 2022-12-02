@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+require 'thor'
+
+Dir.glob(File.join(File.dirname(__FILE__), 'aoc_<%= @year %>', '*.rb')).each do |f|
+  require "aoc_<%= @year %>/#{File.basename(f, '.rb')}"
+end
+
+module Aoc<%= @year %>
+  INPUT_FILES = File.join(__dir__, '..', 'resources', 'input')
+
+  class Error < StandardError; end
+end

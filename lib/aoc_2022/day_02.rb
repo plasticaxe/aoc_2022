@@ -3,34 +3,80 @@
 module Aoc2022
   #----
   class Day02Part1
+    SHAPE_1     = { 'A' => :rock,
+                    'B' => :paper,
+                    'C' => :scissors }.freeze
+    SHAPE_2     = { 'X' => :rock,
+                    'Y' => :paper,
+                    'Z' => :scissors }.freeze
+    SHAPE_SCORE = { rock: 1,
+                    paper: 2,
+                    scissors: 3 }.freeze
+    WIN         = 6
+    DRAW        = 3
+    LOSE        = 0
+
     def initialize(input_file)
-      @input = File.read(input_file).each_line(chomp: true).to_a
+      @input = File.read(input_file).each_line(chomp: true).to_a.map { |i| i.split.map(&:strip) }
     end
 
     def run
-      # ---
+      @input.map { |r| score(SHAPE_1[r[0]], SHAPE_2[r[1]]) }.sum
+    end
+
+    private
+
+    def score(shape_one, shape_two)
+      SHAPE_SCORE[shape_two] + if draw?(shape_one, shape_two)
+                                 DRAW
+                               elsif win?(shape_one, shape_two)
+                                 WIN
+                               else
+                                 LOSE
+                               end
+    end
+
+    def draw?(shape_one, shape_two)
+      shape_one.eql?(shape_two)
+    end
+
+    def win?(shape_one, shape_two)
+      [%i[scissors rock], %i[rock paper], %i[paper scissors]].include?([shape_one, shape_two])
     end
   end
 
   #----
   class Day02Part2 < Day02Part1
+    RESULT = { 'X' => :lose,
+               'Y' => :draw,
+               'Z' => :win }.freeze
+
     def run
-      # ---
+      @input.map { |r| score(SHAPE_1[r[0]], required_shape(SHAPE_1[r[0]], RESULT[r[1]])) }.sum
+    end
+
+    private
+
+    def required_shape(shape_one, result)
+      return shape_one if result.eql?(:draw)
+
+      SHAPE_2.each_value do |shape_two|
+        if result.eql?(:win)
+          return shape_two if win?(shape_one, shape_two)
+        else
+          return shape_two unless win?(shape_one, shape_two) || draw?(shape_one, shape_two)
+        end
+      end
     end
   end
 
   #-----
   module Day02
-    def self.default_input_file
-      File.join(Aoc2022::INPUT_FILES, 'day_02_example.txt')
-      # File.join(Aoc2022::INPUT_FILES, 'day_02.txt')
-    end
-
-    def self.part_one(input_file = default_input_file)
+    def self.part_one(input_file)
       Aoc2022::Day02Part1.new(input_file).run
     end
 
-    def self.part_two(input_file = default_input_file)
+    def self.part_two(input_file)
       Aoc2022::Day02Part2.new(input_file).run
     end
   end

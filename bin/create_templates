@@ -3,40 +3,78 @@
 
 require 'erb'
 require 'fileutils'
+require 'thor'
 
-project_root        = File.expand_path(File.dirname(File.dirname(__FILE__)))
-templates_directory = File.join(project_root, 'resources', 'templates')
+# ---
+class CreateTemplates < Thor
+  # ---
+  class FileTemplates
+    def initialize(year, day_number)
+      @year       = year
+      @day_number = day_number
+    end
 
-1.upto(25).each do |day|
-  day_number = day.to_s.rjust(2, '0')
+    def create_files
+      create_lib_file
+      create_input_files
+      create_spec_file
+    end
 
-  bin_file = File.join(project_root, 'bin', "day_#{day_number}")
-  unless File.exist?(bin_file)
-    File.open(bin_file, 'w') do |f|
-      f << ERB.new(File.read(File.join(templates_directory, 'bin_day_N.erb'))).result(binding)
+    private
+
+    def project_root
+      File.expand_path(File.dirname(File.dirname(__FILE__)))
+    end
+
+    def templates_directory
+      File.join(project_root, 'resources', 'templates')
+    end
+
+    def create_lib_file
+      lib_file = File.join(lib_dir, "day_#{@day_number}.rb")
+      return if File.exist?(lib_file)
+
+      File.open(lib_file, 'w') do |f|
+        f << ERB.new(File.read(File.join(templates_directory, 'lib_aoc_YYYY_day_N.rb.erb'))).result(binding)
+      end
+    end
+
+    def lib_dir
+      @lib_dir ||= begin
+        lib_dir = File.join(project_root, 'lib', "aoc_#{@year}")
+        Dir.mkdir(lib_dir) unless Dir.exist?(lib_dir)
+        lib_dir
+      end
+    end
+
+    def create_input_files
+      input_file = File.join(project_root, 'resources', 'input', "day_#{@day_number}.txt")
+      FileUtils.touch(input_file) unless File.exist?(input_file)
+      example_input_file = File.join(project_root, 'resources', 'input', "day_#{@day_number}_example.txt")
+      FileUtils.touch(example_input_file) unless File.exist?(example_input_file)
+    end
+
+    def create_spec_file
+      spec_file = File.join(project_root, 'spec', "aoc_#{@year}_day_#{@day_number}_spec.rb")
+      return if File.exist?(spec_file)
+
+      File.open(spec_file, 'w') do |f|
+        f << ERB.new(File.read(File.join(templates_directory, 'spec_aoc_YYYY_day_N_spec.rb.erb'))).result(binding)
+      end
     end
   end
-  File.chmod(0o755, bin_file)
 
-  lib_dir = File.join(project_root, 'lib', 'aoc_2022')
-  Dir.mkdir(lib_dir) unless Dir.exist?(lib_dir)
-  lib_file = File.join(lib_dir, "day_#{day_number}.rb")
-  unless File.exist?(lib_file)
-    File.open(lib_file, 'w') do |f|
-      f << ERB.new(File.read(File.join(templates_directory, 'lib_day_N.rb.erb'))).result(binding)
+  class_option :year, default: Time.now.year.to_s, aliases: :y
+
+  desc 'create_templates', %()
+
+  def create_templates
+    1.upto(25).each do |day|
+      FileTemplates.new(options[:year], day.to_s.rjust(2, '0')).create_files
     end
   end
 
-  input_file = File.join(project_root, 'resources', 'input', "day_#{day_number}.txt")
-  FileUtils.touch(input_file) unless File.exist?(input_file)
-
-  example_input_file = File.join(project_root, 'resources', 'input', "day_#{day_number}_example.txt")
-  FileUtils.touch(example_input_file) unless File.exist?(example_input_file)
-
-  spec_file = File.join(project_root, 'spec', "aoc_2022_day_#{day_number}_spec.rb")
-  next if File.exist?(spec_file)
-
-  File.open(spec_file, 'w') do |f|
-    f << ERB.new(File.read(File.join(templates_directory, 'spec_aoc_YYYY_day_N_spec.rb.erb'))).result(binding)
-  end
+  default_task :create_templates
 end
+
+CreateTemplates.start(ARGV)

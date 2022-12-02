@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
-
-require 'bundler/setup'
-require 'aoc_2022'
-
-puts Aoc2022::Day21.part_one
-puts Aoc2022::Day21.part_two

@@ -21,16 +21,11 @@ module Aoc2022
 
   #-----
   module Day15
-    def self.default_input_file
-      File.join(Aoc2022::INPUT_FILES, 'day_15_example.txt')
-      # File.join(Aoc2022::INPUT_FILES, 'day_15.txt')
-    end
-
-    def self.part_one(input_file = default_input_file)
+    def self.part_one(input_file)
       Aoc2022::Day15Part1.new(input_file).run
     end
 
-    def self.part_two(input_file = default_input_file)
+    def self.part_two(input_file)
       Aoc2022::Day15Part2.new(input_file).run
     end
   end

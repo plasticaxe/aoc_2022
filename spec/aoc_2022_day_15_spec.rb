@@ -10,7 +10,7 @@
 
 #     context 'part_one' do
 #       it 'should have the right answer' do
-#         expect(Aoc2022::Day15.part_one).to be(000)
+#         expect(Aoc2022::Day15.part_one(File.join(Aoc2022::INPUT_FILES, 'day_15.txt'))).to be(000)
 #       end
 #     end
 
@@ -22,7 +22,7 @@
 
 #     context 'part_two' do
 #       it 'should have the right answer' do
-#         expect(Aoc2022::Day15.part_two).to be(000)
+#         expect(Aoc2022::Day15.part_two(File.join(Aoc2022::INPUT_FILES, 'day_15.txt'))).to be(000)
 #       end
 #     end
 #   end

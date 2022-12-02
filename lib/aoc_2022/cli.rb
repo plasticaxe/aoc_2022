@@ -5,15 +5,16 @@ require 'thor'
 module Aoc2022
   # ---
   class CLI < Thor
+    class_option :day, required: true, aliases: :d
+    class_option :input_file, required: false, aliases: :i
+    class_option :example, type: :boolean, aliases: :e
+
     desc 'print_solution', 'takes a day number and input file and prints the solution'
-    option :day, required: true, aliases: :d
-    option :input_file, required: false, aliases: :i
 
     def print_solution
       %w[one two].each do |part_num|
-        aoc_class = Object.const_get("Aoc2022::Day#{options[:day].rjust(2, '0')}")
         if options[:input_file].nil?
-          puts aoc_class.send("part_#{part_num}")
+          puts aoc_class.send("part_#{part_num}", options[:example] ? example_input_file : default_input_file)
         else
           puts aoc_class.send("part_#{part_num}", options[:input_file])
         end
@@ -21,5 +22,23 @@ module Aoc2022
     end
 
     default_task :print_solution
+
+    no_commands do
+      def aoc_class
+        @aoc_class ||= Object.const_get("Aoc2022::Day#{day_number}")
+      end
+
+      def day_number
+        @day_number ||= options[:day].rjust(2, '0')
+      end
+
+      def default_input_file
+        File.join(Aoc2022::INPUT_FILES, "day_#{day_number}.txt")
+      end
+
+      def example_input_file
+        File.join(Aoc2022::INPUT_FILES, "day_#{day_number}_example.txt")
+      end
+    end
   end
 end
