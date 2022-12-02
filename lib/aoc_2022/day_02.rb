@@ -37,11 +37,13 @@ module Aoc2022
     end
 
     def draw?(shape_one, shape_two)
-      shape_one.eql?(shape_two)
+      (@draw ||= {})[[shape_one, shape_two]] ||= shape_one.eql?(shape_two)
     end
 
     def win?(shape_one, shape_two)
-      [%i[scissors rock], %i[rock paper], %i[paper scissors]].include?([shape_one, shape_two])
+      (@win ||= {})[[shape_one,
+                     shape_two]] ||= [%i[scissors rock], %i[rock paper],
+                                      %i[paper scissors]].include?([shape_one, shape_two])
     end
   end
 
@@ -58,8 +60,11 @@ module Aoc2022
     private
 
     def required_shape(shape_one, result)
-      return shape_one if result.eql?(:draw)
+      (@required_shape ||= {})[[shape_one,
+                                result]] ||= result.eql?(:draw) ? shape_one : discover_shape(shape_one, result)
+    end
 
+    def discover_shape(shape_one, result)
       SHAPE_2.each_value do |shape_two|
         if result.eql?(:win)
           return shape_two if win?(shape_one, shape_two)
