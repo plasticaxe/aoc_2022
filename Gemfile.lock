@@ -3,6 +3,8 @@ PATH
   specs:
     aoc_2022 (0.1.0)
       geom
+      rubocop-rake
+      rubocop-rspec
       thor
 
 GEM
@@ -42,6 +44,10 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.13.0)
       parser (>= 3.0.1.1)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
+    rubocop-rspec (2.11.1)
+      rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     thor (1.1.0)
     unicode-display_width (2.1.0)

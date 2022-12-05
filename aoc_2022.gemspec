@@ -28,6 +28,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'geom'
+  spec.add_dependency 'rubocop-rake'
+  spec.add_dependency 'rubocop-rspec'
   spec.add_dependency 'thor'
   spec.metadata = {
     'rubygems_mfa_required' => 'true'
