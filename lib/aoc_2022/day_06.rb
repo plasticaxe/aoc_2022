@@ -14,11 +14,11 @@ module Aoc2022
     private
 
     def required_marker(length)
-      @input.each_index { |i| return i + length if unique_chars?(@input[i..i + (length - 1)], length) }
+      @input.each_index { |i| return i + length if unique_chars?(@input[i..i + (length - 1)]) }
     end
 
-    def unique_chars?(arr, num)
-      (@unique_chars ||= {})[[arr, num]] ||= arr.uniq.size.eql?(num)
+    def unique_chars?(arr)
+      (@unique_chars ||= {})[arr] ||= arr.uniq.size.eql?(arr.size)
     end
   end
 
