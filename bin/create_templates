@@ -42,7 +42,7 @@ class CreateTemplates < Thor
     def lib_dir
       @lib_dir ||= begin
         lib_dir = File.join(project_root, 'lib', "aoc_#{@year}")
-        Dir.mkdir(lib_dir) unless Dir.exist?(lib_dir)
+        FileUtils.mkdir_p(lib_dir)
         lib_dir
       end
     end
@@ -55,11 +55,11 @@ class CreateTemplates < Thor
     end
 
     def create_spec_file
-      spec_file = File.join(project_root, 'spec', "aoc_#{@year}_day_#{@day_number}_spec.rb")
+      spec_file = File.join(project_root, 'spec', "aoc#{@year}_day_#{@day_number}_spec.rb")
       return if File.exist?(spec_file)
 
       File.open(spec_file, 'w') do |f|
-        f << ERB.new(File.read(File.join(templates_directory, 'spec_aoc_YYYY_day_N_spec.rb.erb'))).result(binding)
+        f << ERB.new(File.read(File.join(templates_directory, 'spec_aocYYYY_day_N_spec.rb.erb'))).result(binding)
       end
     end
   end

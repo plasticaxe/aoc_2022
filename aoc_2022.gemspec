@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'geom'
   spec.add_dependency 'rubocop-rake'
   spec.add_dependency 'rubocop-rspec'
+  spec.add_dependency 'rubytree'
   spec.add_dependency 'thor'
   spec.metadata = {
     'rubygems_mfa_required' => 'true'
