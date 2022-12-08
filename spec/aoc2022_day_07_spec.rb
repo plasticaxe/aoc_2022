@@ -8,19 +8,19 @@ RSpec.describe Aoc2022 do
       end
     end
 
-    context 'when executing part_one' do
+    context 'when executing part one' do
       it 'has the right answer' do
         expect(Aoc2022::Day07.part_one(File.join(Aoc2022::INPUT_FILES, 'day_07.txt'))).to be(1_367_870)
       end
     end
 
-    context 'when executing part_two_example' do
+    context 'when executing part two example' do
       it 'has the right answer' do
         expect(Aoc2022::Day07.part_two(File.join(Aoc2022::INPUT_FILES, 'day_07_example.txt'))).to be(24_933_642)
       end
     end
 
-    context 'when executing part_two' do
+    context 'when executing part two' do
       it 'has the right answer' do
         expect(Aoc2022::Day07.part_two(File.join(Aoc2022::INPUT_FILES, 'day_07.txt'))).to be(549_173)
       end
