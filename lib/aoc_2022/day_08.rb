@@ -11,16 +11,14 @@ module Aoc2022
     end
 
     def run
-      count = 0
-      x_trees.each do |x_val|
-        y_trees.each do |y_val|
-          count += 1 if visible_from_edge?(x_val, y_val)
-        end
-      end
-      count + edge_trees
+      tree_coords.count { |coords| visible_from_edge?(coords) } + edge_trees
     end
 
     private
+
+    def tree_coords
+      @tree_coords = x_trees.flat_map { |x| y_trees.map { |y| [x, y] } }
+    end
 
     def x_trees
       @x_trees ||= 1.upto(@input.first.size - 2).to_a
@@ -42,7 +40,8 @@ module Aoc2022
       @edge_trees ||= (e_limit + s_limit) * 2
     end
 
-    def visible_from_edge?(x_val, y_val)
+    def visible_from_edge?(coords)
+      x_val, y_val = coords
       visible_from_n?(x_val, y_val) || visible_from_s?(x_val, y_val) ||
         visible_from_e?(x_val, y_val) || visible_from_w?(x_val, y_val)
     end
@@ -71,18 +70,13 @@ module Aoc2022
   #----
   class Day08Part2 < Day08Part1
     def run
-      scenic_scores = []
-      x_trees.each do |x_val|
-        y_trees.each do |y_val|
-          scenic_scores << scenic_score(x_val, y_val)
-        end
-      end
-      scenic_scores.max
+      tree_coords.map { |coords| scenic_score(coords) }.max
     end
 
     private
 
-    def scenic_score(x_val, y_val)
+    def scenic_score(coords)
+      x_val, y_val = coords
       score_to_n(x_val, y_val) * score_to_s(x_val, y_val) * score_to_e(x_val, y_val) * score_to_w(x_val, y_val)
     end
 
