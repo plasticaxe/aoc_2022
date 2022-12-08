@@ -17,15 +17,15 @@ module Aoc2022
     private
 
     def tree_coords
-      @tree_coords = x_trees.flat_map { |x| y_trees.map { |y| [x, y] } }
+      x_trees.flat_map { |x| y_trees.map { |y| [x, y] } }
     end
 
     def x_trees
-      @x_trees ||= 1.upto(@input.first.size - 2).to_a
+      1.upto(@input.first.size - 2).to_a
     end
 
     def y_trees
-      @y_trees ||= 1.upto(@input.size - 2).to_a
+      1.upto(@input.size - 2).to_a
     end
 
     def e_limit
@@ -37,7 +37,7 @@ module Aoc2022
     end
 
     def edge_trees
-      @edge_trees ||= (e_limit + s_limit) * 2
+      (e_limit + s_limit) * 2
     end
 
     def visible_from_edge?(coords)
