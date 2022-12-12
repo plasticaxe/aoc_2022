@@ -14,7 +14,8 @@ module Aoc2022
     def print_solution
       %w[one two].each do |part_num|
         if options[:input_file].nil?
-          puts aoc_class.send("part_#{part_num}", options[:example] ? example_input_file : default_input_file)
+          input_file = options[:example] ? example_input_file(part_num) : default_input_file(part_num)
+          puts aoc_class.send("part_#{part_num}", input_file)
         else
           puts aoc_class.send("part_#{part_num}", options[:input_file])
         end
@@ -32,11 +33,17 @@ module Aoc2022
         @day_number ||= options[:day].rjust(2, '0')
       end
 
-      def default_input_file
+      def default_input_file(part_num)
+        part_num_specific_file = File.join(Aoc2022::INPUT_FILES, "day_#{day_number}_part_#{part_num}.txt")
+        return part_num_specific_file if File.exist?(part_num_specific_file)
+
         File.join(Aoc2022::INPUT_FILES, "day_#{day_number}.txt")
       end
 
-      def example_input_file
+      def example_input_file(part_num)
+        part_num_specific_file = File.join(Aoc2022::INPUT_FILES, "day_#{day_number}_example_part_#{part_num}.txt")
+        return part_num_specific_file if File.exist?(part_num_specific_file)
+
         File.join(Aoc2022::INPUT_FILES, "day_#{day_number}_example.txt")
       end
     end
