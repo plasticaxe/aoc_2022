@@ -25,9 +25,11 @@ module Aoc2022
     end
 
     def instruction_values
-      array = [1]
-      @input.each { |i| array += i[:cmd].eql?(:noop) ? [0] : [0, i[:val]] }
-      array
+      @instruction_values ||= begin
+        array = [1]
+        @input.each { |i| array += i[:cmd].eql?(:noop) ? [0] : [0, i[:val]] }
+        array
+      end
     end
   end
 
