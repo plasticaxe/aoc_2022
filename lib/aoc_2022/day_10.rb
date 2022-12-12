@@ -11,23 +11,23 @@ module Aoc2022
     end
 
     def run
-      [20, 60, 100, 140, 180, 220].map { |c| c * instruction_values[c] }.sum
+      [20, 60, 100, 140, 180, 220].map { |c| c * register[c] }.sum
     end
 
     private
 
-    def instruction_values
-      @instruction_values ||= begin
-        register = {}
-        register_changes.each_index { |index| register[index] = register_changes.first(index + 1).sum }
-        register
+    def register
+      @register ||= begin
+        hash = {}
+        instruction_values.each_index { |index| hash[index] = instruction_values.first(index + 1).sum }
+        hash
       end
     end
 
-    def register_changes
-      register_changes = [1]
-      @input.each { |i| register_changes += i[:cmd].eql?(:noop) ? [0] : [0, i[:val]] }
-      register_changes
+    def instruction_values
+      array = [1]
+      @input.each { |i| array += i[:cmd].eql?(:noop) ? [0] : [0, i[:val]] }
+      array
     end
   end
 
@@ -45,7 +45,7 @@ module Aoc2022
     private
 
     def sprite_position(cycle)
-      [instruction_values[cycle] - 1, instruction_values[cycle], instruction_values[cycle] + 1]
+      [register[cycle] - 1, register[cycle], register[cycle] + 1]
     end
   end
 
