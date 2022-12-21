@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'thor'
-
 module Aoc2022
   # ---
   class CLI < Thor

@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# https://rubygems.org/gems/rubytree
-require 'tree'
-
 module Aoc2022
   #----
   class Day07Part1
