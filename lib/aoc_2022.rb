@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'json'
 require 'tree' # https://rubygems.org/gems/rubytree
 require 'thor'
 require 'yaml'
